@@ -1,0 +1,61 @@
+---
+import { Image } from 'astro:assets';
+import katie from '@/assets/avatar.jpg';
+import Heading from './ui/Heading.astro';
+---
+
+<section aria-label='Contact Form' class='relative'>
+  <div data-pattern></div>
+  <div class='form-wrapper'>
+    <Image
+      src={katie}
+      alt='Katie Haus'
+      class='headshot'
+      width='700'
+      format='avif'
+    />
+    <form id='contact-form'>
+      <Heading tagName='h2' size='h2'>Let's Connect!</Heading>
+      <p>Reach out below for inquiries, quotes, or collaborations.</p>
+      <div class='input-wrapper'>
+        <label for='name'>Name</label>
+        <input
+          type='text'
+          id='name'
+          name='name'
+          placeholder='e.g. Katie Haus'
+          required
+        />
+      </div>
+      <div class='input-wrapper'>
+        <label for='name'>E-Mail</label>
+        <input
+          type='email'
+          id='email'
+          name='email'
+          placeholder='e.g. hi@email.com'
+          required
+        />
+      </div>
+      <button type="submit" class="btn primary">Contact Me</button>
+    </form>
+    <p class="message"></p>
+  </div>
+</section>
+
+<script>
+  const form = document.querySelector('#contact-form') as HTMLFormElement;
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await fetch('http://localhost:3000/contacts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: 'John Doe',
+        email: 'email@email.com',
+      }),
+    });
+  });
+</script>
