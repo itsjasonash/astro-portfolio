@@ -28,4 +28,22 @@ const projects = defineCollection({
     }),
 });
 
-export const collections = { features, tools, projects };
+const posts = defineCollection({
+  type: 'content',
+  schema: ({ image }) =>
+    z.object({
+      title: z
+        .string()
+        .max(65, { message: 'Title must be less than 65 characters' }),
+      description: z
+        .string()
+        .max(165, { message: 'Description must be less than 165 characters' }),
+      image: image().refine((img) => img.width >= 1000, {
+        message: 'Image must be at least 1000px wide',
+      }),
+      pubDate: z.date(),
+      isDraft: z.boolean().optional(),
+    }),
+});
+
+export const collections = { features, tools, projects, posts };
